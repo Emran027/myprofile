@@ -31,8 +31,8 @@ function App() {
       <footer className="py-12 border-t border-white/5 bg-black/20 backdrop-blur-sm">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="text-xl font-bold tracking-tighter">
-            <span className="neon-text-blue">EMRAN</span>
-            <span className="text-white">.DEV</span>
+            <span className="neon-text-blue">PORT</span>
+            <span className="text-white">FOLIO</span>
           </div>
           <p className="text-gray-500 text-sm">
             © 2024 Md. Emran Hossain. Built with React & Space Magic.

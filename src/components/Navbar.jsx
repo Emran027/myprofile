@@ -32,8 +32,8 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             className="text-2xl font-bold tracking-tighter"
           >
-            <span className="neon-text-blue">EMRAN</span>
-            <span className="text-white">.DEV</span>
+            <span className="neon-text-blue">PORT</span>
+            <span className="text-white">FOLIO</span>
           </motion.div>
 
           {/* Desktop Nav */}
