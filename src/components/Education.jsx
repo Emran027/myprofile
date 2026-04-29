@@ -14,19 +14,19 @@ const Education = () => {
       degree: "BBA in Management",
       institution: "Dr. Maleka University College",
       period: "2022",
-      details: "Graduated with CGPA: 3.17. Developed strong fundamentals in business administration."
+      details: "Developed strong fundamentals in business administration."
     },
     {
       degree: "HSC (Business Studies)",
       institution: "Tatulia Degree College",
       period: "2017",
-      details: "GPA: 3.41"
+      details: "Completed Higher Secondary Certificate in Business Studies."
     },
     {
       degree: "SSC (Science Studies)",
       institution: "Tatulia Pilot High School",
       period: "2015",
-      details: "GPA: 3.67"
+      details: "Completed Secondary School Certificate in Science Studies."
     }
   ];
 
