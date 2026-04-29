@@ -38,9 +38,8 @@ function App() {
             © 2024 Md. Emran Hossain. Built with React & Space Magic.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-gray-400 hover:text-neonBlue transition-colors">LinkedIn</a>
-            <a href="#" className="text-gray-400 hover:text-neonPurple transition-colors">GitHub</a>
-            <a href="#" className="text-gray-400 hover:text-neonBlue transition-colors">Twitter</a>
+            <a href="https://www.linkedin.com/in/emran-hossain-508793304" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-neonBlue transition-colors">LinkedIn</a>
+            <a href="https://github.com/Emran027" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-neonPurple transition-colors">GitHub</a>
           </div>
         </div>
       </footer>

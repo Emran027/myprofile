@@ -85,12 +85,8 @@ const Projects = () => {
                 </div>
               </div>
 
-              {/* Float Animation Overlay (Subtle) */}
-              <motion.div
-                animate={{ y: [0, 5, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0 pointer-events-none border border-transparent group-hover:border-white/5 rounded-[2rem]"
-              />
+              {/* Subtle hover border overlay */}
+              <div className="absolute inset-0 pointer-events-none border border-transparent group-hover:border-white/5 rounded-[2rem]" />
             </motion.div>
           ))}
         </div>
