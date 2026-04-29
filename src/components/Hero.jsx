@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronRight, Download } from 'lucide-react';
+import myImage from '../assets/myimage.jpg';
 
 const Hero = () => {
   return (
@@ -69,7 +70,7 @@ const Hero = () => {
               className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-2 border-neonBlue/30 shadow-[0_0_50px_rgba(0,242,255,0.2)] z-20"
             >
               <img 
-                src="/src/assets/myimage.jpg" 
+                src={myImage} 
                 alt="Md. Emran Hossain" 
                 className="w-full h-full object-cover"
               />
