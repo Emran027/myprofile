@@ -13,9 +13,9 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="z-10"
         >
-          <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
-            Hi, I am <br />
-            <span className="neon-text-blue">Md. Emran Hossain</span>
+          <h1 className="font-black mb-6 leading-tight">
+            <span className="text-2xl md:text-3xl text-gray-400 font-bold block mb-2">Hi, I am</span>
+            <span className="text-5xl md:text-7xl bg-gradient-to-b from-white via-white to-gray-400 bg-clip-text text-transparent">Md. Emran Hossain</span>
           </h1>
 
           <p className="text-xl text-gray-400 mb-10 max-w-lg">
@@ -30,7 +30,7 @@ const Hero = () => {
               href="#projects"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-neonBlue text-black font-bold rounded-xl flex items-center gap-2 transition-all hover:shadow-[0_0_20px_rgba(0,242,255,0.4)]"
+              className="w-full sm:w-52 px-8 py-4 bg-neonBlue text-black font-bold rounded-xl flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_30px_rgba(0,209,255,0.5)]"
             >
               View Projects <ChevronRight size={20} />
             </motion.a>
@@ -38,7 +38,7 @@ const Hero = () => {
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 border-2 border-neonPurple/50 text-white font-bold rounded-xl flex items-center gap-2 hover:bg-neonPurple/10 transition-all hover:border-neonPurple hover:shadow-[0_0_20px_rgba(188,19,254,0.3)]"
+              className="w-full sm:w-52 px-8 py-4 border-2 border-neonBlue/50 text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-neonBlue/10 transition-all hover:border-neonBlue hover:shadow-[0_0_30px_rgba(0,209,255,0.4)]"
             >
               Contact Me
             </motion.a>
@@ -46,15 +46,15 @@ const Hero = () => {
         </motion.div>
 
         <div className="relative flex justify-center items-center">
-          {/* Profile Image with CSS-only ring animations */}
+          {/* Profile Image with original Astro ring animations */}
           <div className="hero-orbital relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center">
-            {/* Outer Rings - CSS animation */}
+            {/* Outer Rings - Original Astro Style */}
             <div className="absolute inset-0 border-2 border-neonBlue/20 rounded-full hero-ring-slow" />
             <div className="absolute inset-4 border border-neonPurple/10 rounded-full hero-ring-reverse" />
             <div className="absolute inset-10 border border-white/5 rounded-full" />
             
-            {/* Image Container - static, no counter-rotation */}
-            <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-2 border-neonBlue/30 shadow-[0_0_50px_rgba(0,242,255,0.2)] z-20">
+            {/* Image Container - Round as before */}
+            <div className="relative w-48 h-48 md:w-72 md:h-72 rounded-full overflow-hidden border-2 border-neonBlue/30 shadow-[0_0_60px_rgba(0,209,255,0.25)] z-20">
               <img 
                 src={myImage} 
                 alt="Md. Emran Hossain" 
@@ -64,20 +64,20 @@ const Hero = () => {
               <div className="absolute inset-0 bg-gradient-to-tr from-neonBlue/20 to-transparent pointer-events-none" />
             </div>
 
-            {/* Orbiting dot - CSS only */}
+            {/* Orbiting dots - Original style */}
             <div className="absolute inset-0 hero-orbit-1">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-neonBlue/20 backdrop-blur-sm rounded-lg rotate-45 border border-neonBlue/50 shadow-[0_0_10px_rgba(0,242,255,0.4)] flex items-center justify-center">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-neonBlue/20 backdrop-blur-sm rounded-lg rotate-45 border border-neonBlue/50 shadow-[0_0_15px_rgba(0,209,255,0.5)] flex items-center justify-center">
                 <div className="w-2 h-2 bg-neonBlue rounded-full" />
               </div>
             </div>
 
             <div className="absolute inset-0 hero-orbit-2">
-              <div className="absolute -bottom-2 right-1/4 w-5 h-5 bg-neonPurple/20 backdrop-blur-sm rounded-full border border-neonPurple/50 shadow-[0_0_10px_rgba(188,19,254,0.4)]" />
+              <div className="absolute -bottom-2 right-1/4 w-5 h-5 bg-neonPurple/20 backdrop-blur-sm rounded-full border border-neonPurple/50 shadow-[0_0_15px_rgba(255,241,139,0.5)]" />
             </div>
           </div>
 
           {/* Background Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-neonBlue/5 blur-[100px] rounded-full" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-neonBlue/10 blur-[120px] rounded-full" />
         </div>
       </div>
       

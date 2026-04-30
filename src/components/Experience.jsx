@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar, Rocket, Users, Video, Search } from 'lucide-react';
+import { Briefcase, Calendar, Rocket, Users, Video, Search, CheckCircle } from 'lucide-react';
 
 const Experience = () => {
   const experiences = [
@@ -11,6 +11,22 @@ const Experience = () => {
       icon: <Rocket className="text-neonBlue" />,
       description: "Onboarded 30+ FMCG companies and trained 1,500+ users. Developed GuideBox (40+ video tutorials) and searchable dashboard. Expert in master data structuring (product/price/territory mapping) and field activity insights.",
       highlights: ["30+ Companies Onboarded", "1,500+ Users Trained", "Master Data Expert"]
+    },
+    {
+      title: "Business Development Executive",
+      company: "The Tech Academy",
+      period: "May 2024 - Sep 2024",
+      icon: <Users className="text-neonPurple" />,
+      description: "Managed client acquisition pipelines, conducted lead qualification, and maintained high conversion rates through strategic outreach and CRM management.",
+      highlights: ["Pipeline Management", "Lead Conversion", "CRM Expert"]
+    },
+    {
+      title: "Sales Validation Executive",
+      company: "The Tech Academy",
+      period: "Feb 2024 - May 2024",
+      icon: <CheckCircle className="text-neonBlue" />,
+      description: "Validated sales data, ensured accuracy in client records, and bridged communication between field teams and internal departments to optimize sales performance.",
+      highlights: ["Data Validation", "Performance Analysis", "Sales Support"]
     },
     {
       title: "Digital Marketing Manager",
@@ -36,7 +52,7 @@ const Experience = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-bold mb-4">Professional <span className="neon-text-blue">Journey</span></h2>
@@ -53,15 +69,15 @@ const Experience = () => {
                 key={index}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ duration: 0.6 }}
                 className={`relative flex flex-col md:flex-row items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
               >
                 {/* Dot */}
-                <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-space border-2 border-neonBlue z-10 shadow-[0_0_10px_#00f2ff]" />
+                <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-space border-2 border-neonBlue z-10 shadow-[0_0_20px_rgba(0,209,255,0.8)]" />
 
                 <div className="w-full md:w-1/2 pl-8 md:pl-0 md:px-12">
-                  <div className={`glass p-8 rounded-3xl border-white/10 hover:border-neonBlue/40 transition-all duration-500 group`}>
+                  <div className="group relative glass p-8 rounded-2xl border-white/5 hover:border-neonBlue/30 hover:shadow-[0_20px_60px_rgba(0,209,255,0.25)] transition-all duration-500 overflow-hidden">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="p-3 glass rounded-2xl bg-white/5 border-white/5 group-hover:scale-110 transition-transform">
                         {exp.icon}

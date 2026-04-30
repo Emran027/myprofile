@@ -13,12 +13,12 @@ export default {
           dark: '#020202',
         },
         neonBlue: {
-          DEFAULT: '#00f2ff',
-          glow: 'rgba(0, 242, 255, 0.5)',
+          DEFAULT: '#4DE3FF',
+          glow: 'rgba(77, 227, 255, 0.4)',
         },
         neonPurple: {
-          DEFAULT: '#bc13fe',
-          glow: 'rgba(188, 19, 254, 0.5)',
+          DEFAULT: '#FFF18B',
+          glow: 'rgba(255, 241, 139, 0.4)',
         },
       },
       fontFamily: {

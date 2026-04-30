@@ -27,7 +27,7 @@ const Skills = () => {
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
           >
             <h2 className="text-4xl font-bold mb-8">
               Core <span className="neon-text-purple">Expertise</span>
@@ -44,7 +44,7 @@ const Skills = () => {
                     key={skill.name}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                     transition={{ delay: index * 0.05 }}
                     className="space-y-2"
                   >
@@ -56,7 +56,7 @@ const Skills = () => {
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
+                        viewport={{ once: false }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
                         className={`h-full rounded-full ${skill.color === 'neonBlue' ? 'bg-neonBlue shadow-[0_0_10px_rgba(0,242,255,0.3)]' : 'bg-neonPurple shadow-[0_0_10px_rgba(188,19,254,0.3)]'}`}
                       />
@@ -70,7 +70,7 @@ const Skills = () => {
           <motion.div
              initial={{ opacity: 0, y: 30 }}
              whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: true }}
+             viewport={{ once: false }}
              className="space-y-12"
           >
              <div>
@@ -81,7 +81,7 @@ const Skills = () => {
                       key={tool}
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false }}
                       transition={{ delay: index * 0.1 }}
                       className="glass px-6 py-3 rounded-2xl border-white/5 text-sm font-medium text-gray-300 hover:border-neonBlue/30 hover:text-white transition-all cursor-default"
                     >
@@ -91,7 +91,7 @@ const Skills = () => {
                 </div>
              </div>
 
-             <div className="glass p-8 rounded-[2rem] border-white/5 bg-gradient-to-br from-neonBlue/5 to-neonPurple/5">
+             <div className="glass p-8 rounded-2xl border-white/5 bg-gradient-to-br from-neonBlue/5 to-neonPurple/5">
                 <h3 className="text-xl font-bold mb-4">Professional Summary</h3>
                 <p className="text-gray-400 text-sm leading-relaxed italic">
                   "I am skilled in master data structuring, sales validation, and process optimization with a passion for automation and scalable training solutions."

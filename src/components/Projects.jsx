@@ -5,39 +5,52 @@ import { ExternalLink, Code, Play, Gamepad2, Layers, Map } from 'lucide-react';
 const Projects = () => {
   const projects = [
     {
+      title: "Dino Bhai",
+      description: "A professional, high-definition endless runner game with a modern neon aesthetic.",
+      tags: ["HTML5 Canvas", "JavaScript", "Game Dev"],
+      icon: <Gamepad2 className="text-neonBlue" />,
+      color: "blue",
+      link: "https://emran027.github.io/dinobhai/"
+    },
+    {
       title: "GuideBox",
       description: "40+ video tutorials and searchable support dashboard for client training.",
       tags: ["React", "Dashboard", "Video Support"],
-      icon: <Layers className="text-neonBlue" />,
-      color: "blue"
+      icon: <Layers className="text-neonPurple" />,
+      color: "purple",
+      link: "#"
     },
     {
       title: "TheEduGame",
       description: "EdTech platform gamifying Accounting education for students.",
       tags: ["Gamification", "EdTech", "Education"],
-      icon: <Gamepad2 className="text-neonPurple" />,
-      color: "purple"
+      icon: <Gamepad2 className="text-neonBlue" />,
+      color: "blue",
+      link: "#"
     },
     {
       title: "Amader Shomobay",
       description: "Web app for managing local savings society records and lottery systems.",
       tags: ["Fintech", "Management", "Automation"],
-      icon: <Layers className="text-neonBlue" />,
-      color: "blue"
+      icon: <Layers className="text-neonPurple" />,
+      color: "purple",
+      link: "#"
     },
     {
       title: "90's Dream",
       description: "Nostalgic retro-themed web application portfolio.",
       tags: ["Retro", "Portfolio", "UI/UX"],
-      icon: <Play className="text-neonPurple" />,
-      color: "purple"
+      icon: <Play className="text-neonBlue" />,
+      color: "blue",
+      link: "#"
     },
     {
       title: "Visual Mapper",
       description: "Data organizer tool for flat to hierarchical territory data transformations.",
       tags: ["Data Tool", "Mapping", "Hierarchical"],
-      icon: <Map className="text-neonBlue" />,
-      color: "blue"
+      icon: <Map className="text-neonPurple" />,
+      color: "purple",
+      link: "#"
     }
   ];
 
@@ -50,10 +63,10 @@ const Projects = () => {
               key={project.title}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
               whileHover={{ y: -15 }}
-              className="group relative glass p-8 rounded-[2rem] border-white/5 hover:border-neonBlue/30 hover:shadow-[0_20px_50px_rgba(0,242,255,0.1)] transition-all duration-500 overflow-hidden"
+              className="group relative glass p-8 rounded-2xl border-white/5 hover:border-neonBlue/30 hover:shadow-[0_20px_60px_rgba(0,209,255,0.25)] transition-all duration-500 overflow-hidden"
             >
               {/* Card Background Glow */}
               <div className={`absolute -right-10 -bottom-10 w-40 h-40 rounded-full blur-[60px] opacity-20 transition-opacity group-hover:opacity-40 ${project.color === 'blue' ? 'bg-neonBlue' : 'bg-neonPurple'}`} />
@@ -64,7 +77,14 @@ const Projects = () => {
                     {project.icon}
                   </div>
                   <div className="flex gap-2">
-                    <button className="p-2 glass rounded-full hover:text-neonBlue transition-colors"><ExternalLink size={18} /></button>
+                    <a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="p-2 glass rounded-full hover:text-neonBlue transition-colors"
+                    >
+                      <ExternalLink size={18} />
+                    </a>
                   </div>
                 </div>
 
