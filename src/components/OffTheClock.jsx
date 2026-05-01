@@ -41,6 +41,8 @@ const OffTheClock = () => {
   const [activeTab, setActiveTab] = useState('sacred');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const photoScrollRef = React.useRef(null);
 
   const tabs = [
     { id: 'sacred', label: 'The Sacred Trails', icon: <Compass size={18} /> },
@@ -68,6 +70,28 @@ const OffTheClock = () => {
     { name: "Tannery More Mosque", localName: "ট্যানারি মোড় মসজিদ", img: img5, year: "Historical", location: "Hazaribagh" },
     { name: "Ulbadan Jame Mosque", localName: "উলবাদান জামে মসজিদ", img: img1, year: "Historical", location: "Old Dhaka" }
   ];
+
+  // Auto-slide for photography
+  useEffect(() => {
+    if (activeTab === 'photography' && selectedPhotoIndex === null) {
+      const timer = setInterval(() => {
+        setActivePhotoIndex((prev) => (prev + 1) % photos.length);
+      }, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [activeTab, selectedPhotoIndex, photos.length]);
+
+  // Scroll to active photo
+  useEffect(() => {
+    if (photoScrollRef.current && activeTab === 'photography') {
+      const container = photoScrollRef.current;
+      const cardWidth = window.innerWidth < 768 ? 320 : 420; // card width (280/380) + gap (40)
+      container.scrollTo({
+        left: activePhotoIndex * cardWidth - (container.offsetWidth / 2) + (cardWidth / 2),
+        behavior: 'smooth'
+      });
+    }
+  }, [activePhotoIndex, activeTab]);
 
   // Keyboard navigation for lightbox
   useEffect(() => {
@@ -238,22 +262,50 @@ const OffTheClock = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12"
+              className="relative"
             >
+              {/* Scroll Hint */}
+              <div className="flex flex-col items-center mb-8">
+                <div className="flex items-center gap-4 text-gray-500 text-[10px] font-black uppercase tracking-[0.4em]">
+                  <motion.div
+                    animate={{ x: [-10, 10, -10] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <ChevronLeft size={14} className="text-neonBlue" />
+                  </motion.div>
+                  Swipe to Explore
+                  <motion.div
+                    animate={{ x: [10, -10, 10] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <ChevronRight size={14} className="text-neonBlue" />
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Side Masks for Depth */}
+              <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-black/50 to-transparent z-10 pointer-events-none md:block hidden" />
+              <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-black/50 to-transparent z-10 pointer-events-none md:block hidden" />
+
+              <motion.div 
+                ref={photoScrollRef}
+                className="flex overflow-x-auto gap-10 pb-16 pt-8 px-8 md:px-40 no-scrollbar scroll-smooth snap-x"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
               {photos.map((photo, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 50, rotate: index % 2 === 0 ? -2 : 2 }}
+                  initial={{ opacity: 0, y: 30, rotate: index % 2 === 0 ? -1 : 1 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   whileHover={{ 
                     scale: 1.05, 
                     rotate: 0,
-                    z: 50,
+                    y: -10,
                     transition: { duration: 0.3 }
                   }}
                   style={{ perspective: "1000px" }}
-                  className="relative group cursor-pointer"
+                  className="flex-none w-[280px] md:w-[380px] relative group cursor-pointer snap-center"
                   onClick={() => setSelectedPhotoIndex(index)}
                 >
                   <div className="glass p-4 rounded-[2rem] border-white/10 shadow-2xl transition-all duration-500 group-hover:border-neonBlue/30 group-hover:shadow-[0_20px_50px_rgba(0,209,255,0.2)]">
@@ -261,7 +313,7 @@ const OffTheClock = () => {
                       <img 
                         src={photo} 
                         alt={`Capture ${index + 1}`} 
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                        className="w-full h-full object-cover transition-all duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
@@ -269,16 +321,17 @@ const OffTheClock = () => {
                     <div className="flex justify-between items-center px-2">
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-y-2 group-hover:translate-y-0">
                         <p className="text-[10px] font-black text-neonBlue tracking-widest uppercase">Shot No. {index + 1}</p>
-                        <h4 className="text-sm font-bold text-white">Nature's Essence</h4>
+                        <h4 className="text-xs font-bold text-white">Wild Moments</h4>
                       </div>
-                      <div className="w-10 h-10 glass rounded-full flex items-center justify-center text-white/20 group-hover:text-neonBlue group-hover:bg-neonBlue/10 transition-all">
-                        <Camera size={18} />
+                      <div className="w-8 h-8 glass rounded-full flex items-center justify-center text-white/20 group-hover:text-neonBlue group-hover:bg-neonBlue/10 transition-all">
+                        <Camera size={14} />
                       </div>
                     </div>
                   </div>
                   <div className="absolute -inset-4 bg-neonBlue/5 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity -z-10 rounded-full" />
                 </motion.div>
               ))}
+              </motion.div>
             </motion.div>
           )}
 
