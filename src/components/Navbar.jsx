@@ -25,9 +25,9 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'py-4' : 'py-6'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-[1000] transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
       <div className="container mx-auto px-6">
-        <div className={`relative glass rounded-2xl flex items-center justify-between px-8 py-3 transition-all duration-300 ${scrolled ? 'border-neonBlue/30 bg-black/40 shadow-[0_0_25px_rgba(0,209,255,0.15)]' : 'border-white/5 bg-white/5'}`}>
+        <div className={`relative glass rounded-2xl flex items-center justify-between px-8 py-3 transition-all duration-300 ${scrolled ? 'border-neonBlue/40 bg-black/80 backdrop-blur-2xl shadow-[0_0_30px_rgba(0,209,255,0.2)]' : 'border-white/10 bg-black/60 backdrop-blur-xl'}`}>
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}

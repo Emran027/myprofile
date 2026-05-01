@@ -13,11 +13,11 @@
     will-change: transform, opacity;
     transform: translateZ(0);
   }
-  
+
   .neon-text-blue {
     @apply text-neonBlue;
-    text-shadow: 0 0 8px rgba(0, 209, 255, 0.3), 
-                 0 0 16px rgba(0, 209, 255, 0.15);
+    text-shadow: 0 0 8px rgba(0, 209, 255, 0.3),
+      0 0 16px rgba(0, 209, 255, 0.15);
   }
 
   .text-gradient-white {
@@ -26,18 +26,18 @@
     -webkit-text-fill-color: transparent;
     display: inline-block;
   }
-  
+
   .neon-text-purple {
     @apply text-neonPurple;
-    text-shadow: 0 0 10px rgba(255, 241, 139, 0.4), 
-                 0 0 20px rgba(255, 241, 139, 0.2);
+    text-shadow: 0 0 10px rgba(255, 241, 139, 0.4),
+      0 0 20px rgba(255, 241, 139, 0.2);
   }
-  
+
   .neon-border-blue {
     @apply border-neonBlue/50;
     box-shadow: 0 0 15px rgba(0, 209, 255, 0.3), inset 0 0 10px rgba(0, 209, 255, 0.1);
   }
-  
+
   .neon-border-purple {
     @apply border-neonPurple/50;
     box-shadow: 0 0 15px rgba(255, 241, 139, 0.3), inset 0 0 10px rgba(255, 241, 139, 0.1);
