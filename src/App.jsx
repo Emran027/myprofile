@@ -5,6 +5,7 @@ import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Education from './components/Education';
+import OffTheClock from './components/OffTheClock';
 import Contact from './components/Contact';
 import StarBackground from './components/StarBackground';
 
@@ -24,6 +25,7 @@ function App() {
         <Projects />
         <Skills />
         <Education />
+        <OffTheClock />
         <Contact />
       </main>
 

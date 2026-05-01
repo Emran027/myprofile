@@ -112,7 +112,7 @@ const Contact = () => {
             <div className="space-y-8">
               {[
               { icon: <Mail className="text-neonBlue" />, label: "Email", value: "emran.nextgen@gmail.com", link: "mailto:emran.nextgen@gmail.com" },
-              { icon: <Phone className="text-neonPurple" />, label: "Phone", value: "+880 1608-142137", link: "tel:+8801608142137" },
+              { icon: <Phone className="text-neonPurple" />, label: "Phone", value: "+880 1896-270282", link: "tel:+8801896270282" },
               { icon: <MapPin className="text-neonBlue" />, label: "Location", value: "Dhaka, Bangladesh", link: "#" }
             ].map((info, i) => (
               <motion.a
