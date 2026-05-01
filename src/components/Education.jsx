@@ -33,7 +33,8 @@ const Education = () => {
   const certifications = [
     { name: "Advanced Excel", provider: "Udemy" },
     { name: "Python Coding", provider: "w3schools" },
-    { name: "Digital Marketing Tools", provider: "Various" }
+    { name: "Digital Marketing Tools", provider: "Various" },
+    { name: "2D Animation", provider: "Skill Development" }
   ];
 
   return (
@@ -42,10 +43,13 @@ const Education = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">Academic <span className="text-neonBlue">Background</span></h2>
+          <h2 className="text-4xl font-bold mb-4">
+            <span className="text-gradient-white">Educational</span> <span className="neon-text-purple">Foundation</span>
+          </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-neonBlue to-neonPurple mx-auto rounded-full" />
         </motion.div>
 
@@ -59,8 +63,8 @@ const Education = () => {
                 key={index}
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false }}
-                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.1 }}
                 className="relative pl-8"
               >
                 <div className="absolute left-0 top-2 -translate-x-1/2 w-4 h-4 rounded-full bg-space border-2 border-neonBlue z-10 shadow-[0_0_15px_rgba(0,209,255,0.5)]" />
@@ -118,11 +122,12 @@ const Education = () => {
                     </div>
                     <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                        <motion.div 
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${lang.p}%` }}
-                        viewport={{ once: false }}
-                        transition={{ duration: 1, delay: 0.5 }}
+                        initial={{ scaleX: 0, originX: 0 }}
+                        whileInView={{ scaleX: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
                         className="h-full bg-neonBlue shadow-[0_0_10px_rgba(0,242,255,0.3)]" 
+                        style={{ width: `${lang.p}%` }}
                        />
                     </div>
                   </div>

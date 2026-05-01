@@ -17,7 +17,7 @@ const StarBackground = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] bg-[#020202] overflow-hidden pointer-events-none">
+    <div className="fixed inset-0 z-[-1] bg-[#020202] overflow-hidden pointer-events-none" style={{ transform: 'translateZ(0)' }}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-neonPurple/5 to-transparent opacity-20" />
       
       {/* Stars rendered with pure CSS animation */}
@@ -31,6 +31,7 @@ const StarBackground = () => {
             width: `${star.size}px`,
             height: `${star.size}px`,
             opacity: star.opacity,
+            willChange: "opacity",
             animation: `twinkle ${3 + star.delay}s ease-in-out infinite`,
             animationDelay: `${star.delay}s`,
           }}

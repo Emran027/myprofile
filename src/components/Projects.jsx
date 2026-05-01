@@ -57,16 +57,41 @@ const Projects = () => {
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl font-bold mb-4">
+            <span className="text-gradient-white">My Creative</span> <span className="neon-text-blue">Works</span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-neonBlue to-neonPurple mx-auto rounded-full" />
+        </motion.div>
+
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1 }
+            }
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          {projects.map((project) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{ y: -15 }}
-              className="group relative glass p-8 rounded-2xl border-white/5 hover:border-neonBlue/30 hover:shadow-[0_20px_60px_rgba(0,209,255,0.25)] transition-all duration-500 overflow-hidden"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 }
+              }}
+              whileHover={{ y: -10 }}
+              className="group relative glass p-8 rounded-2xl border-white/5 hover:border-neonBlue/30 hover:shadow-[0_20px_60px_rgba(0,209,255,0.25)] transition-[border-color,box-shadow,transform] duration-300 overflow-hidden will-change-transform"
             >
               {/* Card Background Glow */}
               <div className={`absolute -right-10 -bottom-10 w-40 h-40 rounded-full blur-[60px] opacity-20 transition-opacity group-hover:opacity-40 ${project.color === 'blue' ? 'bg-neonBlue' : 'bg-neonPurple'}`} />
@@ -109,7 +134,7 @@ const Projects = () => {
               <div className="absolute inset-0 pointer-events-none border border-transparent group-hover:border-white/5 rounded-[2rem]" />
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

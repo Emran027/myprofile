@@ -10,12 +10,21 @@
 @layer components {
   .glass {
     @apply bg-white/[0.03] backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+    will-change: transform, opacity;
+    transform: translateZ(0);
   }
   
   .neon-text-blue {
     @apply text-neonBlue;
     text-shadow: 0 0 8px rgba(0, 209, 255, 0.3), 
                  0 0 16px rgba(0, 209, 255, 0.15);
+  }
+
+  .text-gradient-white {
+    background: linear-gradient(to bottom, #ffffff 30%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
   }
   
   .neon-text-purple {

@@ -52,10 +52,13 @@ const Experience = () => {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">Professional <span className="neon-text-blue">Journey</span></h2>
+          <h2 className="text-4xl font-bold mb-4">
+            <span className="text-gradient-white">Professional</span> <span className="neon-text-blue">Journey</span>
+          </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-neonBlue to-neonPurple mx-auto rounded-full" />
         </motion.div>
 
@@ -69,15 +72,16 @@ const Experience = () => {
                 key={index}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.6 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 className={`relative flex flex-col md:flex-row items-center ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}
               >
                 {/* Dot */}
                 <div className="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-space border-2 border-neonBlue z-10 shadow-[0_0_20px_rgba(0,209,255,0.8)]" />
 
+                {/* Main Card */}
                 <div className="w-full md:w-1/2 pl-8 md:pl-0 md:px-12">
-                  <div className="group relative glass p-8 rounded-2xl border-white/5 hover:border-neonBlue/30 hover:shadow-[0_20px_60px_rgba(0,209,255,0.25)] transition-all duration-500 overflow-hidden">
+                  <div className="group relative glass p-8 rounded-2xl border-white/5 hover:border-neonBlue/30 hover:shadow-[0_20px_60px_rgba(0,209,255,0.25)] transition-[border-color,box-shadow,transform] duration-500 overflow-hidden">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="p-3 glass rounded-2xl bg-white/5 border-white/5 group-hover:scale-110 transition-transform">
                         {exp.icon}
@@ -105,6 +109,30 @@ const Experience = () => {
                       ))}
                     </div>
                   </div>
+                </div>
+
+                {/* Side Metric Card (Fills Whitespace) */}
+                <div className="hidden md:flex md:w-1/2 px-12 justify-center">
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="relative"
+                  >
+                    <div className="glass p-6 rounded-3xl border-white/5 hover:border-neonPurple/20 transition-colors group">
+                      <div className="text-center">
+                        <span className="block text-3xl font-black neon-text-blue mb-1">
+                          {exp.highlights?.[0]?.split(' ')[0]}
+                        </span>
+                        <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold leading-tight block max-w-[120px]">
+                          {exp.highlights?.[0]?.split(' ').slice(1).join(' ')}
+                        </span>
+                      </div>
+                      
+                      {/* Decorative elements */}
+                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-neonBlue/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
             ))}

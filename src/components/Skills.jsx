@@ -17,20 +17,33 @@ const Skills = () => {
   ];
 
   const tools = [
-    'Google Workspace', 'Sokrio DMS', 'CRM Systems', 'Zoom', 'Basic Python', 'Canva', 'Adobe Photoshop'
+    'Google Workspace', 'Sokrio DMS', 'CRM Systems', 'Zoom', 'Basic Python', 'Canva', 'Adobe Photoshop', '2D Animation'
   ];
 
   return (
     <section id="skills" className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { 
+              opacity: 1,
+              transition: { staggerChildren: 0.1 }
+            }
+          }}
+          className="grid lg:grid-cols-2 gap-16"
+        >
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 }
+            }}
           >
             <h2 className="text-4xl font-bold mb-8">
-              Core <span className="neon-text-purple">Expertise</span>
+              <span className="text-gradient-white">Core</span> <span className="neon-text-purple">Expertise</span>
             </h2>
             <p className="text-gray-400 text-lg leading-relaxed mb-12">
               Purposeful Business Development Executive with firsthand experience in SaaS onboarding, client implementation, and structured data management. 
@@ -39,51 +52,47 @@ const Skills = () => {
             <div className="space-y-8">
               <h3 className="text-xl font-bold text-white/80 border-l-2 border-neonBlue pl-4">Technical & Operational</h3>
               <div className="grid grid-cols-1 gap-6">
-                {[...technicalSkills, ...operationalSkills].map((skill, index) => (
-                  <motion.div
-                    key={skill.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: false }}
-                    transition={{ delay: index * 0.05 }}
-                    className="space-y-2"
-                  >
+                {[...technicalSkills, ...operationalSkills].map((skill) => (
+                  <div key={skill.name} className="space-y-2">
                     <div className="flex justify-between text-sm font-medium mb-1">
                       <span>{skill.name}</span>
                       <span className={skill.color === 'neonBlue' ? 'text-neonBlue' : 'text-neonPurple'}>{skill.level}%</span>
                     </div>
                     <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                       <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: false }}
-                        transition={{ duration: 1.5, ease: "easeOut" }}
-                        className={`h-full rounded-full ${skill.color === 'neonBlue' ? 'bg-neonBlue shadow-[0_0_10px_rgba(0,242,255,0.3)]' : 'bg-neonPurple shadow-[0_0_10px_rgba(188,19,254,0.3)]'}`}
+                        variants={{
+                          hidden: { scaleX: 0, originX: 0 },
+                          visible: { scaleX: 1 }
+                        }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className={`h-full rounded-full ${skill.color === 'neonBlue' ? 'bg-neonBlue shadow-[0_0_10px_rgba(0,242,255,0.3)]' : 'bg-neonPurple shadow-[0_0_10px_rgba(255,241,139,0.3)]'}`}
+                        style={{ width: `${skill.level}%` }}
                       />
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </div>
           </motion.div>
 
           <motion.div
-             initial={{ opacity: 0, y: 30 }}
-             whileInView={{ opacity: 1, y: 0 }}
-             viewport={{ once: false }}
+             variants={{
+               hidden: { opacity: 0, y: 30 },
+               visible: { opacity: 1, y: 0 }
+             }}
              className="space-y-12"
           >
              <div>
                 <h3 className="text-xl font-bold text-white/80 border-l-2 border-neonPurple pl-4 mb-8">Tools & Technologies</h3>
                 <div className="flex flex-wrap gap-4">
-                  {tools.map((tool, index) => (
+                  {tools.map((tool) => (
                     <motion.div
                       key={tool}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: false }}
-                      transition={{ delay: index * 0.1 }}
-                      className="glass px-6 py-3 rounded-2xl border-white/5 text-sm font-medium text-gray-300 hover:border-neonBlue/30 hover:text-white transition-all cursor-default"
+                      variants={{
+                        hidden: { opacity: 0, scale: 0.9 },
+                        visible: { opacity: 1, scale: 1 }
+                      }}
+                      className="glass px-6 py-3 rounded-2xl border-white/5 text-sm font-medium text-gray-300 hover:border-neonBlue/30 hover:text-white transition-[border-color,color] cursor-default"
                     >
                       {tool}
                     </motion.div>
@@ -98,7 +107,7 @@ const Skills = () => {
                 </p>
              </div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
