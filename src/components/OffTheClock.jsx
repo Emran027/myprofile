@@ -65,6 +65,7 @@ const OffTheClock = () => {
   const [currentArtSlide, setCurrentArtSlide] = useState(0);
   const [selectedMedia, setSelectedMedia] = useState(null); 
   const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const photoScrollRef = useRef(null);
 
   const tabs = [
@@ -99,6 +100,13 @@ const OffTheClock = () => {
     { name: "Ulbadan Jame Mosque", localName: "উলবাদান জামে মসজিদ", img: img1, year: "Historical", location: "Old Dhaka" }
   ];
 
+  // Window resize listener
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Keyboard navigation for lightbox
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -127,32 +135,46 @@ const OffTheClock = () => {
   useEffect(() => {
     if (photoScrollRef.current && activeTab === 'photography') {
       const container = photoScrollRef.current;
-      const cardWidth = window.innerWidth < 768 ? 320 : 420; 
+      const cardWidth = windowWidth < 768 ? 320 : 420; 
       container.scrollTo({
         left: activePhotoIndex * cardWidth - (container.offsetWidth / 2) + (cardWidth / 2),
         behavior: 'smooth'
       });
     }
-  }, [activePhotoIndex, activeTab]);
+  }, [activePhotoIndex, activeTab, windowWidth]);
 
   const nextMedia = () => {
     setSelectedMedia(prev => {
       if (!prev) return null;
-      const list = prev.type === 'photo' ? photos : prev.type === 'art' ? arts : mosques.map(m => m.img);
-      return { ...prev, index: (prev.index + 1) % list.length };
+      const list = prev.type === 'photo' ? photos : prev.type === 'art' ? arts : mosques;
+      const nextIndex = (prev.index + 1) % list.length;
+      
+      // Sync with main gallery
+      if (prev.type === 'photo') setActivePhotoIndex(nextIndex);
+      else if (prev.type === 'art') setCurrentArtSlide(nextIndex);
+      else setCurrentSlide(nextIndex);
+      
+      return { ...prev, index: nextIndex };
     });
   };
 
   const prevMedia = () => {
     setSelectedMedia(prev => {
       if (!prev) return null;
-      const list = prev.type === 'photo' ? photos : prev.type === 'art' ? arts : mosques.map(m => m.img);
-      return { ...prev, index: (prev.index - 1 + list.length) % list.length };
+      const list = prev.type === 'photo' ? photos : prev.type === 'art' ? arts : mosques;
+      const prevIndex = (prev.index - 1 + list.length) % list.length;
+      
+      // Sync with main gallery
+      if (prev.type === 'photo') setActivePhotoIndex(prevIndex);
+      else if (prev.type === 'art') setCurrentArtSlide(prevIndex);
+      else setCurrentSlide(prevIndex);
+      
+      return { ...prev, index: prevIndex };
     });
   };
 
   return (
-    <section id="off-the-clock" className="pt-32 pb-24 relative overflow-hidden bg-[#050505]">
+    <section id="off-the-clock" className={`pt-32 pb-24 relative overflow-hidden bg-[#050505] ${selectedMedia ? 'z-[99999]' : ''}`}>
       <div className="container mx-auto px-6 relative z-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 tracking-tighter">
@@ -183,14 +205,30 @@ const OffTheClock = () => {
               <div className="relative h-[550px] flex items-center justify-center perspective-1000">
                 <div className="relative w-full max-w-[400px] h-full">
                   {mosques.map((mosque, index) => {
-                    const offset = (index - currentSlide + mosques.length) % mosques.length;
-                    if (offset > 2 && offset < mosques.length - 2) return null;
-                    const xOffset = offset === 0 ? 0 : offset === 1 ? '35%' : offset === 2 ? '65%' : offset === mosques.length - 1 ? '-35%' : '-65%';
+                    const total = mosques.length;
+                    const offset = (index - currentSlide + total) % total;
+                    const diff = offset > total / 2 ? offset - total : offset;
+                    
+                    if (Math.abs(diff) > 2) return null;
+                    const isCenter = diff === 0;
+
                     return (
-                      <motion.div key={index} animate={{ x: xOffset, scale: offset === 0 ? 1 : 0.85, zIndex: 10 - Math.abs(offset === 0 ? 0 : offset), opacity: offset === 0 ? 1 : 0.5, rotateY: offset === 0 ? 0 : offset === 1 ? -25 : 25 }} transition={{ type: 'spring', stiffness: 200, damping: 25 }} className="absolute inset-0 cursor-pointer" onClick={() => { if(offset === 0) setSelectedMedia({type: 'mosque', index}); else setCurrentSlide(index); }}>
-                        <div className="h-full w-full glass p-3 rounded-[2.5rem] border-white/10 overflow-hidden group">
-                          <img src={mosque.img} alt="" className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-transparent to-transparent p-8 flex flex-col justify-end">
+                      <motion.div 
+                        key={index} 
+                        animate={{ 
+                          x: diff * (windowWidth < 768 ? 40 : 120) + (diff !== 0 ? (diff > 0 ? 40 : -40) : 0),
+                          scale: isCenter ? 1 : 0.8, 
+                          zIndex: 10 - Math.abs(diff), 
+                          opacity: isCenter ? 1 : 0.4, 
+                          rotateY: diff * -25 
+                        }} 
+                        transition={{ type: 'spring', stiffness: 200, damping: 25 }} 
+                        className="absolute inset-0 cursor-pointer" 
+                        onClick={() => { if(isCenter) setSelectedMedia({type: 'mosque', index}); else setCurrentSlide(index); }}
+                      >
+                        <div className={`h-full w-full glass p-3 rounded-[2.5rem] border-white/10 overflow-hidden group transition-colors duration-500 ${isCenter ? 'border-neonBlue/50' : ''}`}>
+                          <img src={mosque.img} alt="" className={`w-full h-full object-cover transition-all duration-700 ${isCenter ? 'grayscale-0 scale-105' : 'grayscale contrast-75'}`} />
+                          <div className={`absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent p-8 flex flex-col justify-end transition-opacity duration-500 ${isCenter ? 'opacity-100' : 'opacity-0'}`}>
                             <h4 className="text-xl font-bold text-white mb-1">{mosque.localName}</h4>
                             <div className="flex items-center gap-2 text-neonBlue mb-2"><MapPin size={14} /><span className="text-xs font-bold uppercase tracking-widest">{mosque.location}</span></div>
                           </div>
@@ -209,7 +247,16 @@ const OffTheClock = () => {
                 <h3 className="text-2xl md:text-3xl font-bold mb-6 text-white italic leading-relaxed">"সময়ের স্রোতকে বন্দি করে রাখছি আজ, যেন কোনো এক অলস বিকেলে রকিং চেয়ারে বসে এক কাপ চায়ের চুমুকে নিজেকে খুঁজে পাই এই ফ্রেমগুলোর মাঝে।"</h3>
                 <p className="text-neonBlue font-bold text-lg">— ইমরান হোসেন</p>
               </div>
-              <motion.div ref={photoScrollRef} className="flex overflow-x-auto gap-10 pb-20 pt-8 px-4 md:px-40 no-scrollbar scroll-smooth snap-x items-center" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <motion.div 
+                ref={photoScrollRef} 
+                className="flex overflow-x-auto gap-10 pb-20 pt-8 no-scrollbar scroll-smooth snap-x items-center" 
+                style={{ 
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none',
+                  paddingLeft: `${Math.max(16, (windowWidth / 2) - (windowWidth < 768 ? 140 : 190))}px`,
+                  paddingRight: `${Math.max(16, (windowWidth / 2) - (windowWidth < 768 ? 140 : 190))}px`
+                }}
+              >
                 {photos.map((photo, index) => {
                   const isActive = index === activePhotoIndex;
                   return (
@@ -246,7 +293,7 @@ const OffTheClock = () => {
                       <motion.div
                         key={index}
                         animate={{
-                          x: diff * (window.innerWidth < 768 ? 60 : 100),
+                          x: diff * (windowWidth < 768 ? 80 : 120),
                           scale: isCenter ? 1.15 : 0.85,
                           zIndex: 10 - Math.abs(diff),
                           rotateY: diff * -15,
@@ -281,88 +328,87 @@ const OffTheClock = () => {
           )}
         </AnimatePresence>
 
-        {/* Improved Lightbox Modal */}
-        <AnimatePresence>
-          {selectedMedia && (
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }} 
-              className="fixed inset-0 z-[999] flex items-center justify-center bg-black/95 backdrop-blur-2xl"
-              onClick={() => setSelectedMedia(null)}
-            >
-              {/* Top Bar for Close Button */}
-              <div className="absolute top-0 left-0 right-0 p-6 flex justify-end z-[1001]">
-                <button 
-                  className="w-12 h-12 md:w-16 md:h-16 glass rounded-full flex items-center justify-center text-white hover:text-red-500 border border-white/10 transition-all shadow-xl"
-                  onClick={(e) => { e.stopPropagation(); setSelectedMedia(null); }}
-                >
-                  <X size={32} />
-                </button>
-              </div>
-
-              {/* Responsive Navigation Arrows */}
-              <div className="absolute inset-x-0 px-4 md:px-12 flex justify-between items-center z-[1000] pointer-events-none">
-                <button 
-                  onClick={(e) => { e.stopPropagation(); prevMedia(); }} 
-                  className="w-14 h-14 md:w-20 md:h-20 glass rounded-full flex items-center justify-center text-white hover:text-neonBlue border border-white/10 pointer-events-auto transition-all shadow-lg"
-                >
-                  <ChevronLeft size={40} />
-                </button>
-                <button 
-                  onClick={(e) => { e.stopPropagation(); nextMedia(); }} 
-                  className="w-14 h-14 md:w-20 md:h-20 glass rounded-full flex items-center justify-center text-white hover:text-neonBlue border border-white/10 pointer-events-auto transition-all shadow-lg"
-                >
-                  <ChevronRight size={40} />
-                </button>
-              </div>
-
-              {/* Main Content Area */}
-              <div 
-                className="w-full h-full flex flex-col items-center justify-center p-4 md:p-12"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <motion.div 
-                  key={selectedMedia.index + selectedMedia.type} 
-                  initial={{ opacity: 0, scale: 0.95 }} 
-                  animate={{ opacity: 1, scale: 1 }} 
-                  className="relative max-w-full max-h-full flex items-center justify-center"
-                >
-                  {selectedMedia.type === 'mosque' ? (
-                    <div className="relative flex flex-col items-center">
-                      <img 
-                        src={mosques[selectedMedia.index].img} 
-                        alt="" 
-                        className="max-w-[95vw] max-h-[80vh] object-contain rounded-xl shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-white/10" 
-                      />
-                      <div className="mt-6 text-center">
-                        <h3 className="text-white text-2xl md:text-3xl font-bold mb-2">{mosques[selectedMedia.index].localName}</h3>
-                        <div className="flex items-center justify-center gap-2 text-neonBlue">
-                          <MapPin size={18} />
-                          <span className="text-lg font-bold tracking-widest">{mosques[selectedMedia.index].location}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="relative flex flex-col items-center">
-                      <img 
-                        src={selectedMedia.type === 'photo' ? photos[selectedMedia.index] : arts[selectedMedia.index]} 
-                        alt="" 
-                        className="max-w-[95vw] max-h-[85vh] object-contain rounded-xl shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-white/10" 
-                      />
-                      <div className="mt-6 text-center">
-                        <p className="font-handwriting text-white text-3xl opacity-90">
-                          {selectedMedia.type === 'photo' ? 'Wild Lens Capture' : 'Hand-drawn Sketch'}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* Improved Lightbox Modal - Moved outside container for stacking context escaping */}
+      <AnimatePresence>
+        {selectedMedia && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/98 backdrop-blur-3xl overflow-hidden"
+            onClick={() => setSelectedMedia(null)}
+          >
+            {/* Global Close Button - Top Right */}
+            <button 
+              className="fixed top-6 right-6 md:top-10 md:right-10 w-12 h-12 md:w-16 md:h-16 glass rounded-full flex items-center justify-center text-white hover:text-red-500 hover:scale-110 border border-white/20 transition-all duration-300 z-[100005] shadow-2xl"
+              onClick={(e) => { e.stopPropagation(); setSelectedMedia(null); }}
+            >
+              <X size={32} />
+            </button>
+
+            {/* Responsive Navigation Arrows */}
+            <div className="absolute inset-x-0 px-4 md:px-12 flex justify-between items-center z-[100002] pointer-events-none">
+              <button 
+                onClick={(e) => { e.stopPropagation(); prevMedia(); }} 
+                className="w-14 h-14 md:w-20 md:h-20 glass rounded-full flex items-center justify-center text-white hover:text-neonBlue border border-white/10 pointer-events-auto transition-all shadow-lg hover:scale-110"
+              >
+                <ChevronLeft size={40} />
+              </button>
+              <button 
+                onClick={(e) => { e.stopPropagation(); nextMedia(); }} 
+                className="w-14 h-14 md:w-20 md:h-20 glass rounded-full flex items-center justify-center text-white hover:text-neonBlue border border-white/10 pointer-events-auto transition-all shadow-lg hover:scale-110"
+              >
+                <ChevronRight size={40} />
+              </button>
+            </div>
+
+            {/* Main Content Area */}
+            <div 
+              className="w-full h-full flex flex-col items-center justify-center p-4 md:p-8"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <motion.div 
+                key={selectedMedia.index + selectedMedia.type} 
+                initial={{ opacity: 0, scale: 0.95 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                className="relative w-full h-full flex items-center justify-center"
+              >
+                {selectedMedia.type === 'mosque' ? (
+                  <div className="flex flex-col items-center justify-center max-h-full w-full">
+                    <img 
+                      src={mosques[selectedMedia.index].img} 
+                      alt="" 
+                      className="max-w-[95vw] max-h-[60vh] md:max-h-[65vh] object-contain rounded-xl shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-white/10" 
+                    />
+                    <div className="mt-8 text-center px-4 max-w-2xl shrink-0">
+                      <h3 className="text-white text-2xl md:text-3xl font-bold mb-3 tracking-tight">{mosques[selectedMedia.index].localName}</h3>
+                      <div className="flex items-center justify-center gap-3 text-neonBlue">
+                        <MapPin size={20} className="animate-pulse" />
+                        <span className="text-base md:text-lg font-bold tracking-widest uppercase">{mosques[selectedMedia.index].location}</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center max-h-full w-full">
+                    <img 
+                      src={selectedMedia.type === 'photo' ? photos[selectedMedia.index] : arts[selectedMedia.index]} 
+                      alt="" 
+                      className="max-w-[95vw] max-h-[70vh] md:max-h-[75vh] object-contain rounded-xl shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-white/10" 
+                    />
+                    <div className="mt-8 text-center px-4 shrink-0">
+                      <p className="font-handwriting text-white text-4xl md:text-6xl opacity-90">
+                        {selectedMedia.type === 'photo' ? 'Wild Lens Capture' : 'Hand-drawn Sketch'}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');

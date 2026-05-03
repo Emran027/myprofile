@@ -48,7 +48,7 @@ const Education = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-bold mb-4">
-            <span className="text-gradient-white">Educational</span> <span className="neon-text-purple">Foundation</span>
+            <span className="text-gradient-white">Educational</span> <span className="neon-text-blue">Foundation</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-neonBlue to-neonPurple mx-auto rounded-full" />
         </motion.div>
