@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, MapPin, ExternalLink, Send, Phone, CheckCircle2 } from 'lucide-react';
 
 const Contact = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
+  const [state, handleSubmit] = useForm("xdabalbj");
 
   const socials = [
     { 
@@ -50,46 +44,6 @@ const Contact = () => {
       label: "YouTube" 
     }
   ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          access_key: "YOUR_ACCESS_KEY_HERE", // Get your key from web3forms.com
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setIsSubmitted(false), 5000);
-      } else {
-        alert("Something went wrong. Please try again later.");
-      }
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("Failed to send message. Please check your connection.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   return (
     <section id="contact" className="py-24 relative">
@@ -171,7 +125,7 @@ const Contact = () => {
               <div className="absolute top-0 right-0 w-64 h-64 bg-neonBlue/5 blur-[80px] rounded-full -mr-20 -mt-20" />
               
               <AnimatePresence mode="wait">
-                {isSubmitted ? (
+                {state.succeeded ? (
                   <motion.div 
                     key="success"
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -186,12 +140,6 @@ const Contact = () => {
                     <p className="text-gray-400 max-w-sm">
                       Thank you for reaching out. I'll get back to you as soon as possible.
                     </p>
-                    <button 
-                      onClick={() => setIsSubmitted(false)}
-                      className="mt-8 text-neonPurple font-bold hover:underline"
-                    >
-                      Send another message
-                    </button>
                   </motion.div>
                 ) : (
                   <motion.form 
@@ -204,57 +152,58 @@ const Contact = () => {
                       <input 
                         type="text" 
                         name="name"
-                        value={formData.name}
-                        onChange={handleChange}
+                        id="name"
                         required
                         placeholder="John Doe"
                         className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-neonBlue/50 focus:bg-white/[0.06] transition-all text-white placeholder:text-gray-700"
                       />
+                      <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-500 text-xs ml-1" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-bold text-gray-500 ml-1">Email Address</label>
                       <input 
                         type="email" 
                         name="email"
-                        value={formData.email}
-                        onChange={handleChange}
+                        id="email"
                         required
                         placeholder="john@example.com"
                         className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-neonBlue/50 focus:bg-white/[0.06] transition-all text-white placeholder:text-gray-700"
                       />
+                      <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-xs ml-1" />
                     </div>
                     <div className="md:col-span-2 space-y-2">
                       <label className="text-sm font-bold text-gray-500 ml-1">Subject</label>
                       <input 
                         type="text" 
                         name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
+                        id="subject"
                         required
                         placeholder="Project Inquiry"
                         className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-neonBlue/50 focus:bg-white/[0.06] transition-all text-white placeholder:text-gray-700"
                       />
+                      <ValidationError prefix="Subject" field="subject" errors={state.errors} className="text-red-500 text-xs ml-1" />
                     </div>
                     <div className="md:col-span-2 space-y-2">
                       <label className="text-sm font-bold text-gray-500 ml-1">Message</label>
                       <textarea 
                         name="message"
-                        value={formData.message}
-                        onChange={handleChange}
+                        id="message"
                         required
                         rows="5" 
                         placeholder="How can I help you?"
                         className="w-full bg-white/[0.03] border border-white/5 rounded-2xl px-6 py-4 outline-none focus:border-neonBlue/50 focus:bg-white/[0.06] transition-all resize-none text-white placeholder:text-gray-700"
                       ></textarea>
+                      <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xs ml-1" />
                     </div>
                     <div className="md:col-span-2">
                       <motion.button
+                        type="submit"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        disabled={isSubmitting}
-                        className={`w-full md:w-auto px-12 py-4 bg-gradient-to-r from-neonBlue to-neonPurple text-black font-black rounded-xl flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(0,209,255,0.3)] hover:shadow-[0_15px_50px_rgba(255,241,139,0.4)] transition-all ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                        disabled={state.submitting}
+                        className={`w-full md:w-auto px-12 py-4 bg-gradient-to-r from-neonBlue to-neonPurple text-black font-black rounded-xl flex items-center justify-center gap-3 shadow-[0_10px_40px_rgba(0,209,255,0.3)] hover:shadow-[0_15px_50px_rgba(255,241,139,0.4)] transition-all ${state.submitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                       >
-                        {isSubmitting ? 'Sending...' : 'Send Message'} <Send size={20} />
+                        {state.submitting ? 'Sending...' : 'Send Message'} <Send size={20} />
                       </motion.button>
                     </div>
                   </motion.form>
